@@ -85,7 +85,7 @@ If you use `@Basic` or native Hibernate mappings, you can also register the cust
 
 ## 📜 License
 
-This project is licensed under the **GNU General Public License v3 (GPL-3.0)**.
+This project is licensed under the [**GNU General Public License v3 (GPL-3.0)**](https://github.com/daniel99412/ULID.hibernate?tab=GPL-3.0-1-ov-file).
 
 ---
 
