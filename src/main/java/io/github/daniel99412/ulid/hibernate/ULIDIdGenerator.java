@@ -17,7 +17,31 @@ import java.util.Properties;
  */
 public class ULIDIdGenerator implements IdentifierGenerator {
 
+    /**
+     * The transformer responsible for converting the generated ULID into the required type.
+     */
     private ULIDTypeDescriptor.ValueTransformer valueTransformer;
+
+    /**
+     * The supplier used to generate ULIDs. Defaults to {@link ULID#getUlid()}.
+     */
+    private java.util.function.Supplier<ULID> ulidSupplier;
+
+    /**
+     * Default constructor.
+     */
+    public ULIDIdGenerator() {
+        // Default constructor for hibernate
+        this.ulidSupplier = ULID::getUlid;
+    }
+
+    /**
+     * Sets a custom ULID supplier. This can be used for testing or to provide a custom ULID generation strategy.
+     * @param ulidSupplier The custom ULID supplier.
+     */
+    public void setUlidSupplier(java.util.function.Supplier<ULID> ulidSupplier) {
+        this.ulidSupplier = ulidSupplier;
+    }
 
     /**
      * Configures the ULID identifier generator based on the expected return type.
@@ -59,7 +83,7 @@ public class ULIDIdGenerator implements IdentifierGenerator {
         }
 
         // Generate a new ULID and transform it to the appropriate format
-        ULID val = ULID.getUlid();
+        ULID val = ulidSupplier.get();
         return valueTransformer.transform(val);
     }
 }

@@ -63,7 +63,8 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
         if (String.class.isAssignableFrom(type)) {
             return (T) value.toString();
         }
-        throw unknownUnwrap(type);
+        // Directly throw IllegalArgumentException
+        throw new IllegalArgumentException("Unanticipated unwrap type [" + type.getName() + "] for ULID conversion");
     }
 
     /**
@@ -82,15 +83,26 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
         if (value instanceof String) {
             return ULID.parse((String) value);
         }
-        throw unknownWrap(value.getClass());
+        // Directly throw IllegalArgumentException
+        throw new IllegalArgumentException("Unanticipated wrap type [" + value.getClass().getName() + "] for ULID conversion");
     }
 
     /**
      * Interface for transforming ULID values into other serializable formats.
      */
     public interface ValueTransformer {
+        /**
+         * Transforms a ULID into a serializable representation.
+         * @param ulid The ULID to transform.
+         * @return The serializable representation of the ULID.
+         */
         Serializable transform(ULID ulid);
 
+        /**
+         * Parses a value into a ULID.
+         * @param value The value to parse.
+         * @return The parsed ULID.
+         */
         ULID parse(Object value);
     }
 
@@ -98,7 +110,17 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
      * Transformer that passes ULID objects through without modification.
      */
     public static class PassThroughTransformer implements ValueTransformer {
+        /**
+         * Singleton instance of the PassThroughTransformer.
+         */
         public static final PassThroughTransformer INSTANCE = new PassThroughTransformer();
+
+        /**
+         * Default constructor.
+         */
+        public PassThroughTransformer() {
+            //
+        }
 
         public ULID transform(ULID ulid) {
             return ulid;
@@ -113,7 +135,17 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
      * Transformer that converts ULID to and from String representation.
      */
     public static class StringTransformer implements ValueTransformer {
+        /**
+         * Singleton instance of the StringTransformer.
+         */
         public static final StringTransformer INSTANCE = new StringTransformer();
+
+        /**
+         * Default constructor.
+         */
+        public StringTransformer() {
+            //
+        }
 
         public String transform(ULID ulid) {
             return ulid.toString();
@@ -128,7 +160,17 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
      * Transformer that converts ULID to and from byte array representation.
      */
     public static class ToBytesTransformer implements ValueTransformer {
+        /**
+         * Singleton instance of the ToBytesTransformer.
+         */
         public static final ToBytesTransformer INSTANCE = new ToBytesTransformer();
+
+        /**
+         * Default constructor.
+         */
+        public ToBytesTransformer() {
+            //
+        }
 
         public byte[] transform(ULID ulid) {
             byte[] bytes = new byte[16];
