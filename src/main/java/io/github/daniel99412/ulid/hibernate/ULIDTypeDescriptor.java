@@ -1,6 +1,6 @@
-package com.dpardo.ulid.hibernate;
+package io.github.daniel99412.ulid.hibernate;
 
-import com.dpardo.ulid.ULID;
+import io.github.daniel99412.ulid.ULID;
 import org.hibernate.internal.util.BytesHelper;
 import org.hibernate.type.descriptor.WrapperOptions;
 import org.hibernate.type.descriptor.java.AbstractJavaType;
@@ -42,7 +42,7 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
      */
     @Override
     public ULID fromString(CharSequence sequence) {
-        return sequence == null ? null : ULID.fromString(sequence.toString());
+        return sequence == null ? null : ULID.parse(sequence.toString());
     }
 
     /**
@@ -54,6 +54,7 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
      * @return Converted value of type T, or null if input is null
      * @throws IllegalArgumentException if the type is unsupported
      */
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T unwrap(ULID value, Class<T> type, WrapperOptions options) {
         if (value == null) {
@@ -79,7 +80,7 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
             return null;
         }
         if (value instanceof String) {
-            return ULID.fromString((String) value);
+            return ULID.parse((String) value);
         }
         throw unknownWrap(value.getClass());
     }
@@ -119,7 +120,7 @@ public class ULIDTypeDescriptor extends AbstractJavaType<ULID> {
         }
 
         public ULID parse(Object value) {
-            return ULID.fromString((String) value);
+            return ULID.parse((String) value);
         }
     }
 

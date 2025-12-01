@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.dpardo'
+group = 'io.github.daniel99412'
 version = '1.0.0'
 
 repositories {
@@ -16,7 +16,7 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    implementation 'com.dpardo:ulid:1.0.0'
+    implementation 'io.github.daniel99412:ulid:1.0.0'
     implementation 'org.hibernate:hibernate-core:6.4.4.Final'
 }
 

@@ -1,6 +1,6 @@
-package com.dpardo.ulid.hibernate;
+package io.github.daniel99412.ulid.hibernate;
 
-import com.dpardo.ulid.ULID;
+import io.github.daniel99412.ulid.ULID;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -52,7 +52,7 @@ public class ULIDIdGenerator implements IdentifierGenerator {
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         // Check if the entity already has an identifier assigned
         Object id = session.getEntityPersister(null, object)
-                .getClassMetadata().getIdentifier(object, session);
+                .getIdentifier(object, session);
 
         if (id != null) {
             return (Serializable) id;
